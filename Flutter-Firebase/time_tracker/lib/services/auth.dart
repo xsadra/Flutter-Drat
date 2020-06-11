@@ -15,7 +15,7 @@ abstract class AuthBase {
   Future<void> signOut();
 }
 
-class Auth {
+class Auth implements AuthBase {
   final _fireBaseAuthInstance = FirebaseAuth.instance;
 
   User _userFromFirebase(FirebaseUser firebaseUser) {
