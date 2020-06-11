@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:timetracker/app/sign_in/sign_in_page.dart';
+import 'package:timetracker/app/landing_page.dart';
 
-void main(){
+void main() {
   runApp(MainApp());
 }
 
@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.brown,
       ),
-      home: SignInPage(),
+      home: LandingPage(),
     );
   }
 }

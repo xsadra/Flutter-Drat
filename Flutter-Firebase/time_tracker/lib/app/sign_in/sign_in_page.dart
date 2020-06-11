@@ -1,9 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:timetracker/app/sign_in/sign_in_button.dart';
 import 'package:timetracker/app/sign_in/social_sign_in_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInPage extends StatelessWidget {
+
+  const SignInPage({@required this.onSignIn});
+
+  final Function(FirebaseUser) onSignIn;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,9 +88,16 @@ class SignInPage extends StatelessWidget {
     print('Auth with Google');
   }
 
-  Future<void> _signInAnonymously() async{
-    final authResult = await FirebaseAuth.instance.signInAnonymously();
-    print('User ID: ${authResult.user.uid}');
+  Future<void> _signInAnonymously() async {
+    try {
+      AuthResult authResult = await FirebaseAuth.instance.signInAnonymously();
+      onSignIn(authResult.user);
+    } catch (e) {
+      print(e.toString());
+    }
   }
+
+
+
 
 }
