@@ -27,4 +27,15 @@ class _LandingPageState extends State<LandingPage> {
       _user = user;
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _checkCurrentUser();
+  }
+
+  Future<void> _checkCurrentUser() async {
+    FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+    _updateUser(currentUser);
+  }
 }
