@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "805571275317",
+    "firebase_url": "https://time-tracker-by-sadra.firebaseio.com",
+    "project_id": "time-tracker-by-sadra",
+    "storage_bucket": "time-tracker-by-sadra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805571275317:android:20823b2dcbad528b0a5f7c",
+        "android_client_info": {
+          "package_name": "at.sadra.app.timetracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805571275317-j5ebu8tfk9h92ck2olc8sudlhl1pc2qd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "at.sadra.app.timetracker",
+            "certificate_hash": "3e053b5d33055705814f2331546cd746d3689280"
+          }
+        },
+        {
+          "client_id": "805571275317-ibuj8as2v5cppr0cptvucbnnrcmcg8gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqNwvNedfQdKk9mL-S15-aV9ORwyDIriU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805571275317-ibuj8as2v5cppr0cptvucbnnrcmcg8gp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
