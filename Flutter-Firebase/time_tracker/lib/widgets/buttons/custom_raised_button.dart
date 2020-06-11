@@ -4,7 +4,7 @@ class CustomRaisedButton extends StatelessWidget {
   CustomRaisedButton({
     @required this.child,
     this.buttonColor,
-    this.borderRadios,
+    this.borderRadios: 8.0,
     this.height: 50.0,
     @required this.onPressed,
   }) : assert(borderRadios != null);
@@ -24,7 +24,7 @@ class CustomRaisedButton extends StatelessWidget {
         child: child,
         color: buttonColor ?? Colors.white30,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(borderRadios ?? 8.0),
+          borderRadius: BorderRadius.circular(borderRadios),
         ),
       ),
     );
