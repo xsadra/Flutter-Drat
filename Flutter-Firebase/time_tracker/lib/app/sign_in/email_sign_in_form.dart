@@ -13,7 +13,27 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
   final TextEditingController _passwordController = TextEditingController();
 
+  EmailSignInFormType _formType = EmailSignInFormType.SIGN_IN;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: _buildChildren(),
+      ),
+    );
+  }
+
   List<Widget> _buildChildren() {
+    final buttonText = _formType == EmailSignInFormType.SIGN_IN
+        ? 'Sign in '
+        : 'Create an account';
+    final linkText = _formType == EmailSignInFormType.SIGN_IN
+        ? 'Need an account? Register'
+        : 'Have an account? Sign in';
     return [
       TextField(
         controller: _emailController,
@@ -33,26 +53,22 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         height: 12.0,
       ),
       FormSubmitButton(
-        text: 'Sign in',
+        text: buttonText,
         onPressed: _submit,
       ),
       FlatButton(
-        onPressed: () {},
-        child: Text('Need an account? Register'),
+        onPressed: _toggleFormType,
+        child: Text(linkText),
       ),
     ];
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: _buildChildren(),
-      ),
-    );
+  void _toggleFormType() {
+    setState(() {
+      _formType = _formType == EmailSignInFormType.SIGN_IN
+          ? EmailSignInFormType.REGISTER
+          : EmailSignInFormType.SIGN_IN;
+    });
   }
 
   void _submit() {
