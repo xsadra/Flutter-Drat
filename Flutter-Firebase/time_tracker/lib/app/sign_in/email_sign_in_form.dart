@@ -18,6 +18,10 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
   final TextEditingController _passwordController = TextEditingController();
 
+  String get _email => _emailController.text;
+
+  String get _password => _passwordController.text;
+
   EmailSignInFormType _formType = EmailSignInFormType.SIGN_IN;
 
   @override
@@ -78,8 +82,18 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     _passwordController.clear();
   }
 
-  void _submit() {
-    print(_emailController.text);
-    print(_passwordController.text);
+  void _submit() async {
+    try {
+      if (_formType == EmailSignInFormType.SIGN_IN) {
+        await widget.auth
+            .signInWithEmailAndPassword(email: _email, password: _password);
+      } else {
+        await widget.auth
+            .createUserWithEmailAndPassword(email: _email, password: _password);
+      }
+      Navigator.of(context).pop();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }
