@@ -48,6 +48,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         controller: _emailController,
         decoration:
             InputDecoration(labelText: 'Email', hintText: 'you@email.com'),
+        autocorrect: false,
+        keyboardType: TextInputType.emailAddress,
+        textInputAction: TextInputAction.next,
       ),
       SizedBox(
         height: 12.0,
@@ -57,6 +60,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         decoration:
             InputDecoration(labelText: 'Password', hintText: '********'),
         obscureText: true,
+        textInputAction: TextInputAction.done,
       ),
       SizedBox(
         height: 12.0,
