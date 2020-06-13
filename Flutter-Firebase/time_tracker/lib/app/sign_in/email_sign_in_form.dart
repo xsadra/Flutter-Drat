@@ -44,24 +44,11 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         ? 'Need an account? Register'
         : 'Have an account? Sign in';
     return [
-      TextField(
-        controller: _emailController,
-        decoration:
-            InputDecoration(labelText: 'Email', hintText: 'you@email.com'),
-        autocorrect: false,
-        keyboardType: TextInputType.emailAddress,
-        textInputAction: TextInputAction.next,
-      ),
+      _buildEmailTextField(),
       SizedBox(
         height: 12.0,
       ),
-      TextField(
-        controller: _passwordController,
-        decoration:
-            InputDecoration(labelText: 'Password', hintText: '********'),
-        obscureText: true,
-        textInputAction: TextInputAction.done,
-      ),
+      _buildPasswordTextField(),
       SizedBox(
         height: 12.0,
       ),
@@ -74,6 +61,27 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         child: Text(linkText),
       ),
     ];
+  }
+
+  TextField _buildPasswordTextField() {
+    return TextField(
+      controller: _passwordController,
+      decoration:
+          InputDecoration(labelText: 'Password', hintText: '********'),
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+    );
+  }
+
+  TextField _buildEmailTextField() {
+    return TextField(
+      controller: _emailController,
+      decoration:
+          InputDecoration(labelText: 'Email', hintText: 'you@email.com'),
+      autocorrect: false,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+    );
   }
 
   void _toggleFormType() {
