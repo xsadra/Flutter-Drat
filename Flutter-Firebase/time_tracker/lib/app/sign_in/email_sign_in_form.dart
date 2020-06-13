@@ -69,6 +69,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
           ? EmailSignInFormType.REGISTER
           : EmailSignInFormType.SIGN_IN;
     });
+    _emailController.clear();
+    _passwordController.clear();
   }
 
   void _submit() {
