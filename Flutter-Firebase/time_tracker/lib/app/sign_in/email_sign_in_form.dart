@@ -27,7 +27,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   String get _password => _passwordController.text;
 
   EmailSignInFormType _formType = EmailSignInFormType.SIGN_IN;
+
   bool _submitted = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         ? 'Need an account? Register'
         : 'Have an account? Sign in';
 
-    bool isSubmitEnabled = widget.emailValidator.isValid(_email) &&
+    bool isSubmitEnabled = !_isLoading &&
+        widget.emailValidator.isValid(_email) &&
         widget.passwordValidator.isValid(_password);
     return [
       _buildEmailTextField(),
@@ -65,7 +68,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         onPressed: isSubmitEnabled ? _submit : null,
       ),
       FlatButton(
-        onPressed: _toggleFormType,
+        onPressed: _isLoading ? null : _toggleFormType,
         child: Text(linkText),
       ),
     ];
@@ -80,6 +83,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       decoration: InputDecoration(
         labelText: 'Password',
         hintText: '********',
+        enabled: !_isLoading,
         errorText: showErrorText ? widget.invalidPasswordErrorText : null,
       ),
       obscureText: true,
@@ -90,14 +94,14 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   }
 
   TextField _buildEmailTextField() {
-    bool showErrorText =
-        _submitted && widget.emailValidator.isNotValid(_email);
+    bool showErrorText = _submitted && widget.emailValidator.isNotValid(_email);
     return TextField(
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelText: 'Email',
         hintText: 'you@email.com',
+        enabled: !_isLoading,
         errorText: showErrorText ? widget.invalidEmailErrorText : null,
       ),
       autocorrect: false,
@@ -126,6 +130,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   void _submit() async {
     setState(() {
       _submitted = true;
+      _isLoading = true;
     });
     try {
       if (_formType == EmailSignInFormType.SIGN_IN) {
@@ -138,6 +143,10 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       Navigator.of(context).pop();
     } catch (e) {
       print(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
