@@ -113,7 +113,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   }
 
   void _emailEditingComplete() {
-    FocusScope.of(context).requestFocus(_passwordFocusNode);
+    final focusNode = widget.emailValidator.isValid(_email)?_passwordFocusNode : _emailFocusNode;
+    FocusScope.of(context).requestFocus(focusNode);
   }
 
   void _toggleFormType() {
