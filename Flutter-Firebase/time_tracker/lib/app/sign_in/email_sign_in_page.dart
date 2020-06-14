@@ -13,7 +13,7 @@ class EmailSignInPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Sign in'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Card(
           child: EmailSignInForm(
