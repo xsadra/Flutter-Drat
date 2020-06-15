@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:timetracker/app/validators/validators.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/buttons/form_submit_button.dart';
+import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
 
 enum EmailSignInFormType { SIGN_IN, REGISTER }
 
@@ -113,7 +114,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   }
 
   void _emailEditingComplete() {
-    final focusNode = widget.emailValidator.isValid(_email)?_passwordFocusNode : _emailFocusNode;
+    final focusNode = widget.emailValidator.isValid(_email)
+        ? _passwordFocusNode
+        : _emailFocusNode;
     FocusScope.of(context).requestFocus(focusNode);
   }
 
@@ -143,7 +146,11 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       }
       Navigator.of(context).pop();
     } catch (e) {
-      print(e.toString());
+      PlatformAlertDialog(
+        title: 'Sign in failed',
+        content: e.toString(),
+        defaultActionText: 'OK',
+      ).show(context);
     } finally {
       setState(() {
         _isLoading = false;
