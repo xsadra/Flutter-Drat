@@ -7,7 +7,12 @@ import 'package:timetracker/app/sign_in/social_sign_in_button.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
