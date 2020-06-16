@@ -13,6 +13,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,10 +33,9 @@ class _SignInPageState extends State<SignInPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Sign in',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+          SizedBox(
+            height: 40.0,
+            child: _buildHeader(),
           ),
           SizedBox(
             height: 48.0,
@@ -44,7 +45,7 @@ class _SignInPageState extends State<SignInPage> {
             text: 'Sign in with Google',
             color: Colors.white,
             textColor: Colors.black87,
-            onPressed: () => _signInWithGoogle(context),
+            onPressed: _isLoading ? null : () => _signInWithGoogle(context),
           ),
           SizedBox(
             height: 8.0,
@@ -54,7 +55,7 @@ class _SignInPageState extends State<SignInPage> {
             text: 'Sign in with Facebook',
             color: Color(0xFF334D92),
             textColor: Colors.white,
-            onPressed: () => _signInWithFacebook(context),
+            onPressed: _isLoading ? null : () => _signInWithFacebook(context),
           ),
           SizedBox(
             height: 8.0,
@@ -63,7 +64,7 @@ class _SignInPageState extends State<SignInPage> {
             text: 'Sign in with email',
             color: Colors.green[600],
             textColor: Colors.white,
-            onPressed: () => _signInWithEmail(context),
+            onPressed: _isLoading ? null : () => _signInWithEmail(context),
           ),
           SizedBox(
             height: 8.0,
@@ -80,11 +81,23 @@ class _SignInPageState extends State<SignInPage> {
             text: 'Go anonymous',
             color: Colors.lime,
             textColor: Colors.black,
-            onPressed: () => _signInAnonymously(context),
+            onPressed: _isLoading ? null : () => _signInAnonymously(context),
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildHeader() {
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : Text(
+            'Sign in',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+          );
   }
 
   void _signInWithEmail(BuildContext context) {
@@ -97,32 +110,41 @@ class _SignInPageState extends State<SignInPage> {
 
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
+      setState(() => _isLoading = true);
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithFacebook();
     } on PlatformException catch (e) {
       if (e.code != 'ERROR_ABORTED_BY_USER') {
         _showSignInError(context, e);
       }
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
+      setState(() => _isLoading = true);
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithGoogle();
     } on PlatformException catch (e) {
       if (e.code != 'ERROR_ABORTED_BY_USER') {
         _showSignInError(context, e);
       }
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
   Future<void> _signInAnonymously(BuildContext context) async {
     try {
+      setState(() => _isLoading = true);
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInAnonymously();
     } on PlatformException catch (e) {
       _showSignInError(context, e);
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
