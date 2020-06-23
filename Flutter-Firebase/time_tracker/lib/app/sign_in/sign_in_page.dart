@@ -8,8 +8,7 @@ import 'package:timetracker/app/sign_in/social_sign_in_button.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
-
-class SignInPage extends StatefulWidget {
+class SignInPage extends StatelessWidget {
   static Widget create(BuildContext context) {
     return Provider<SignInBloc>(
       create: (context) => SignInBloc(),
@@ -18,12 +17,8 @@ class SignInPage extends StatefulWidget {
   }
 
   @override
-  _SignInPageState createState() => _SignInPageState();
-}
-class _SignInPageState extends State<SignInPage> {
-  @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<SignInBloc>(context,listen: false);
+    final bloc = Provider.of<SignInBloc>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Time Tracker'),
@@ -124,9 +119,9 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Future<void> _signInWithFacebook(BuildContext context) async {
-    final bloc = Provider.of<SignInBloc>(context,listen: false);
+    final bloc = Provider.of<SignInBloc>(context, listen: false);
     try {
-     bloc.setIsLoading(true);
+      bloc.setIsLoading(true);
       final auth = Provider.of<AuthBase>(context, listen: false);
       await auth.signInWithFacebook();
     } on PlatformException catch (e) {
