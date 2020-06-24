@@ -3,13 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:timetracker/app/sign_in/email_sign_in_bloc.dart';
 import 'package:timetracker/app/sign_in/email_sign_in_model.dart';
-import 'package:timetracker/app/validators/validators.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/buttons/form_submit_button.dart';
 import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
-class EmailSignInFormBlocBased extends StatefulWidget
-    with EmailAndPasswordValidator {
+class EmailSignInFormBlocBased extends StatefulWidget {
   EmailSignInFormBlocBased({@required this.bloc});
 
   final EmailSignInBloc bloc;
@@ -65,8 +63,8 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         : 'Have an account? Sign in';
 
     bool isSubmitEnabled = !model.isLoading &&
-        widget.emailValidator.isValid(model.email) &&
-        widget.passwordValidator.isValid(model.password);
+        model.emailValidator.isValid(model.email) &&
+        model.passwordValidator.isValid(model.password);
     return [
       _buildEmailTextField(model: model),
       SizedBox(
@@ -89,7 +87,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
 
   TextField _buildPasswordTextField({EmailSignInModel model}) {
     bool showErrorText =
-        model.submitted && widget.passwordValidator.isNotValid(model.password);
+        model.submitted && model.passwordValidator.isNotValid(model.password);
     return TextField(
       controller: _passwordController,
       focusNode: _passwordFocusNode,
@@ -97,7 +95,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         labelText: 'Password',
         hintText: '********',
         enabled: !model.isLoading,
-        errorText: showErrorText ? widget.invalidPasswordErrorText : null,
+        errorText: showErrorText ? model.invalidPasswordErrorText : null,
       ),
       obscureText: true,
       textInputAction: TextInputAction.done,
@@ -108,7 +106,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
 
   TextField _buildEmailTextField({EmailSignInModel model}) {
     bool showErrorText =
-        model.submitted && widget.emailValidator.isNotValid(model.email);
+        model.submitted && model.emailValidator.isNotValid(model.email);
     return TextField(
       controller: _emailController,
       focusNode: _emailFocusNode,
@@ -116,7 +114,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         labelText: 'Email',
         hintText: 'you@email.com',
         enabled: !model.isLoading,
-        errorText: showErrorText ? widget.invalidEmailErrorText : null,
+        errorText: showErrorText ? model.invalidEmailErrorText : null,
       ),
       autocorrect: false,
       keyboardType: TextInputType.emailAddress,
@@ -127,7 +125,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   }
 
   void _emailEditingComplete({EmailSignInModel model}) {
-    final focusNode = widget.emailValidator.isValid(model.email)
+    final focusNode = model.emailValidator.isValid(model.email)
         ? _passwordFocusNode
         : _emailFocusNode;
     FocusScope.of(context).requestFocus(focusNode);

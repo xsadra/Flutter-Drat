@@ -1,6 +1,8 @@
+import 'package:timetracker/app/validators/validators.dart';
+
 enum EmailSignInFormType { SIGN_IN, REGISTER }
 
-class EmailSignInModel {
+class EmailSignInModel with EmailAndPasswordValidator {
   EmailSignInModel({
     this.email = '',
     this.password = '',
