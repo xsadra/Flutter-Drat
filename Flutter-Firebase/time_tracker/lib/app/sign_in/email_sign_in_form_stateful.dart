@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:timetracker/app/sign_in/email_sign_in_model.dart';
 import 'package:timetracker/app/validators/validators.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/buttons/form_submit_button.dart';
 import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
-enum EmailSignInFormType { SIGN_IN, REGISTER }
+
 
 class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidator {
   @override
