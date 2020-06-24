@@ -8,12 +8,12 @@ import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dar
 
 enum EmailSignInFormType { SIGN_IN, REGISTER }
 
-class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidator {
+class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidator {
   @override
-  _EmailSignInFormState createState() => _EmailSignInFormState();
+  _EmailSignInFormStatefulState createState() => _EmailSignInFormStatefulState();
 }
 
-class _EmailSignInFormState extends State<EmailSignInForm> {
+class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
