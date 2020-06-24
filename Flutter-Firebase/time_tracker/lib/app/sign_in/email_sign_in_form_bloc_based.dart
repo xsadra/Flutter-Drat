@@ -55,16 +55,6 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   }
 
   List<Widget> _buildChildren({EmailSignInModel model}) {
-    final buttonText = model.formType == EmailSignInFormType.SIGN_IN
-        ? 'Sign in '
-        : 'Create an account';
-    final linkText = model.formType == EmailSignInFormType.SIGN_IN
-        ? 'Need an account? Register'
-        : 'Have an account? Sign in';
-
-    bool isSubmitEnabled = !model.isLoading &&
-        model.emailValidator.isValid(model.email) &&
-        model.passwordValidator.isValid(model.password);
     return [
       _buildEmailTextField(model: model),
       SizedBox(
@@ -75,19 +65,17 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         height: 12.0,
       ),
       FormSubmitButton(
-        text: buttonText,
-        onPressed: isSubmitEnabled ? _submit : null,
+        text: model.primaryButtonText,
+        onPressed: model.canSubmit ? _submit : null,
       ),
       FlatButton(
         onPressed: model.isLoading ? null : _toggleFormType,
-        child: Text(linkText),
+        child: Text(model.linkButtonText),
       ),
     ];
   }
 
   TextField _buildPasswordTextField({EmailSignInModel model}) {
-    bool showErrorText =
-        model.submitted && model.passwordValidator.isNotValid(model.password);
     return TextField(
       controller: _passwordController,
       focusNode: _passwordFocusNode,
@@ -95,7 +83,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         labelText: 'Password',
         hintText: '********',
         enabled: !model.isLoading,
-        errorText: showErrorText ? model.invalidPasswordErrorText : null,
+        errorText: model.passwordErrorText,
       ),
       obscureText: true,
       textInputAction: TextInputAction.done,
@@ -105,8 +93,6 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
   }
 
   TextField _buildEmailTextField({EmailSignInModel model}) {
-    bool showErrorText =
-        model.submitted && model.emailValidator.isNotValid(model.email);
     return TextField(
       controller: _emailController,
       focusNode: _emailFocusNode,
@@ -114,7 +100,7 @@ class _EmailSignInFormBlocBasedState extends State<EmailSignInFormBlocBased> {
         labelText: 'Email',
         hintText: 'you@email.com',
         enabled: !model.isLoading,
-        errorText: showErrorText ? model.invalidEmailErrorText : null,
+        errorText: model.emailErrorText,
       ),
       autocorrect: false,
       keyboardType: TextInputType.emailAddress,
