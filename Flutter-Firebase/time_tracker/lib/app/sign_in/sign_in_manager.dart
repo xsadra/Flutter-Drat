@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:timetracker/services/auth.dart';
 
-class SignInBloc {
-  SignInBloc({@required this.auth, @required this.isLoading});
+class SignInManager {
+  SignInManager({@required this.auth, @required this.isLoading});
 
   final AuthBase auth;
   final ValueNotifier<bool> isLoading;
