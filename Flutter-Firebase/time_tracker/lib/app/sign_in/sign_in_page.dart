@@ -10,8 +10,10 @@ import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dar
 
 class SignInPage extends StatelessWidget {
   final SignInBloc bloc;
+  final bool isLoading;
 
-  const SignInPage({Key key, @required this.bloc}) : super(key: key);
+  const SignInPage({Key key, @required this.bloc, @required this.isLoading})
+      : super(key: key);
 
   static Widget create(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
@@ -21,7 +23,10 @@ class SignInPage extends StatelessWidget {
         builder: (_, isLoading, __) => Provider<SignInBloc>(
           create: (_) => SignInBloc(auth: auth, isLoading: isLoading),
           child: Consumer<SignInBloc>(
-            builder: (context, bloc, _) => SignInPage(bloc: bloc),
+            builder: (context, bloc, _) => SignInPage(
+              bloc: bloc,
+              isLoading: isLoading.value,
+            ),
           ),
         ),
       ),
@@ -30,20 +35,16 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = Provider.of<ValueNotifier<bool>>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Time Tracker'),
       ),
-      body:  _buildContent(
-              context: context,
-              isLoading: isLoading.value,
-            ),
+      body: _buildContent(context: context),
       backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent({BuildContext context, bool isLoading}) {
+  Widget _buildContent({BuildContext context}) {
     return SingleChildScrollView(
       padding: EdgeInsets.all(32.0),
       child: Column(
@@ -52,7 +53,7 @@ class SignInPage extends StatelessWidget {
         children: [
           SizedBox(
             height: 40.0,
-            child: _buildHeader(isLoading),
+            child: _buildHeader(),
           ),
           SizedBox(
             height: 48.0,
@@ -105,7 +106,7 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(bool isLoading) {
+  Widget _buildHeader() {
     return isLoading
         ? Center(
             child: CircularProgressIndicator(),
