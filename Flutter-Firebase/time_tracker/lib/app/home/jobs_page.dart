@@ -40,6 +40,7 @@ class JobsPage extends StatelessWidget {
           ),
         ],
       ),
+      body: _buildContent(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _createJob(context),
@@ -66,5 +67,23 @@ class JobsPage extends StatelessWidget {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Widget _buildContent(BuildContext context) {
+    final database = Provider.of<DataBase>(context, listen: false);
+    return StreamBuilder<List<Job>>(
+      stream: database.jobsStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('Some error occurred'));
+        }
+        if (!snapshot.hasData) {
+          return Center(child: CircularProgressIndicator());
+        }
+        final jobs = snapshot.data;
+        final children = jobs.map((job) => Text(job.name)).toList();
+        return ListView(children: children);
+      },
+    );
   }
 }
