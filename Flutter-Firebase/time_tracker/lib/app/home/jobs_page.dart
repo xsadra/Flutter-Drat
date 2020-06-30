@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
 
-class HomePage extends StatelessWidget {
+class JobsPage extends StatelessWidget {
   Future<void> _confirmSignOut(BuildContext context) async {
     final confirm = await PlatformAlertDialog(
       title: 'Logout',
@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('Jobs'),
         actions: [
           FlatButton(
             onPressed: () => _confirmSignOut(context),
