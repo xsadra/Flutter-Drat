@@ -12,9 +12,13 @@ class FirestoreDatabase implements DataBase {
 
   final String uid;
 
-  Future<void> createJob(Job job) async {
-    final path = ApiPath.job(uid, 'job_abc');
-    final documentReference = Firestore.instance.document(path);
-    await documentReference.setData(job.toMap());
+  Future<void> _setData({String path, Map<String, dynamic> data}) async {
+    final reference = Firestore.instance.document(path);
+    await reference.setData(data);
   }
+
+  Future<void> createJob(Job job) async => await _setData(
+        path: ApiPath.job(uid, 'job_abc'),
+        data: job.toMap(),
+      );
 }
