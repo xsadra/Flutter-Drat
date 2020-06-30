@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/services/database.dart';
 import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
@@ -46,7 +47,7 @@ class JobsPage extends StatelessWidget {
 
   Future<void> _createJob(BuildContext context) async {
     final database = Provider.of<DataBase>(context, listen: false);
-    await database.createJob({'name': 'Test data', 'ratePerHour': 00});
+    await database.createJob(Job(name: 'Manager', ratePerHour: 12));
   }
 
   Future<void> _signOut(BuildContext context) async {
