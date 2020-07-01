@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timetracker/app/home/jobs/add_job_page.dart';
+import 'package:timetracker/app/home/jobs/job_list_tile.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/services/database.dart';
@@ -68,7 +69,12 @@ class JobsPage extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
         final jobs = snapshot.data;
-        final children = jobs.map((job) => Text(job.name)).toList();
+        final children = jobs
+            .map((job) => JobListTile(
+                  job: job,
+                  onTap: (){},
+                ))
+            .toList();
         return ListView(children: children);
       },
     );
