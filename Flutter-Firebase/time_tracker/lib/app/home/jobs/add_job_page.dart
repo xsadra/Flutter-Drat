@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
+import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
+import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
 class AddJobPage extends StatefulWidget {
   const AddJobPage({Key key, @required this.database}) : super(key: key);
@@ -91,10 +94,31 @@ class _AddJobPageState extends State<AddJobPage> {
     ];
   }
 
-  Future<void> _submit() async{
-    if (_validateAndSaveForm()) {
+  Future<void> _submit() async {
+    if (!_validateAndSaveForm()) {
+      return;
+    }
+    try {
+      final jobs = await widget.database.jobsStream().first;
+      final jobsName = jobs.map((job) => job.name).toList();
+
+      if (jobsName.contains(_name)) {
+        PlatformAlertDialog(
+          title: 'Name already used',
+          content: 'Please choose a different job name',
+          defaultActionText: 'OK',
+        ).show(context);
+        return;
+      }
+
       final job = Job(name: _name, ratePerHour: _ratePerHour);
-      await widget.dataBase.createJob(job);
+      await widget.database.createJob(job);
+      Navigator.of(context).pop();
+    } on PlatformException catch (e) {
+      PlatformExceptionAlertDialog(
+        title: 'Add new Job failed',
+        exception: e,
+      ).show(context);
     }
   }
 
