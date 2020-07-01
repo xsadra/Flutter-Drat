@@ -4,13 +4,13 @@ import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
 
 class AddJobPage extends StatefulWidget {
-  const AddJobPage({Key key, @required this.dataBase}) : super(key: key);
-  final DataBase dataBase;
+  const AddJobPage({Key key, @required this.database}) : super(key: key);
+  final DataBase database;
 
   static Future<void> show(BuildContext context) async {
     final database = Provider.of<DataBase>(context, listen: false);
     var route = MaterialPageRoute(
-      builder: (context) => AddJobPage(dataBase: database),
+      builder: (context) => AddJobPage(database: database),
       fullscreenDialog: true,
     );
     await Navigator.of(context).push(route);
@@ -86,7 +86,7 @@ class _AddJobPageState extends State<AddJobPage> {
           signed: false,
           decimal: false,
         ),
-        onSaved: (newValue) => _ratePerHour = int.parse(newValue) ?? 0,
+        onSaved: (newValue) => _ratePerHour = int.tryParse(newValue) ?? 0,
       ),
     ];
   }
