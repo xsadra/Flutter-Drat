@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:timetracker/app/home/jobs/add_job_page.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/services/database.dart';
 import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
-import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
 class JobsPage extends StatelessWidget {
   Future<void> _confirmSignOut(BuildContext context) async {
@@ -43,21 +42,9 @@ class JobsPage extends StatelessWidget {
       body: _buildContent(context),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => _createJob(context),
+        onPressed: () => AddJobPage.show(context),
       ),
     );
-  }
-
-  Future<void> _createJob(BuildContext context) async {
-    try {
-      final database = Provider.of<DataBase>(context, listen: false);
-      await database.createJob(Job(name: 'Manager', ratePerHour: 12));
-    } on PlatformException catch (e) {
-      PlatformExceptionAlertDialog(
-        title: 'Operation failed',
-        exception: e,
-      ).show(context);
-    }
   }
 
   Future<void> _signOut(BuildContext context) async {
