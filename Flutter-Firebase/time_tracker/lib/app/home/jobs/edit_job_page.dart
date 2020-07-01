@@ -6,34 +6,48 @@ import 'package:timetracker/services/database.dart';
 import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
 import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
-class AddJobPage extends StatefulWidget {
-  const AddJobPage({Key key, @required this.database}) : super(key: key);
+class EditJobPage extends StatefulWidget {
+  const EditJobPage({Key key, @required this.database, this.job})
+      : super(key: key);
   final DataBase database;
+  final Job job;
 
-  static Future<void> show(BuildContext context) async {
+  static Future<void> show(BuildContext context, {Job job}) async {
     final database = Provider.of<DataBase>(context, listen: false);
     var route = MaterialPageRoute(
-      builder: (context) => AddJobPage(database: database),
+      builder: (context) => EditJobPage(
+        database: database,
+        job: job,
+      ),
       fullscreenDialog: true,
     );
     await Navigator.of(context).push(route);
   }
 
   @override
-  _AddJobPageState createState() => _AddJobPageState();
+  _EditJobPageState createState() => _EditJobPageState();
 }
 
-class _AddJobPageState extends State<AddJobPage> {
+class _EditJobPageState extends State<EditJobPage> {
   final _formKey = GlobalKey<FormState>();
   String _name;
   int _ratePerHour;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.job != null) {
+      _name = widget.job.name;
+      _ratePerHour = widget.job.ratePerHour;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 2.0,
-        title: Text('New Job'),
+        title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
         actions: [
           FlatButton(
             onPressed: _submit,
@@ -71,20 +85,22 @@ class _AddJobPageState extends State<AddJobPage> {
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: _buildChildren(),
+        children: _buildFormChildren(),
       ),
     );
   }
 
-  List<Widget> _buildChildren() {
+  List<Widget> _buildFormChildren() {
     return [
       TextFormField(
         decoration: InputDecoration(labelText: 'Job name'),
+        initialValue: _name,
         validator: (value) => value.isNotEmpty ? null : 'Name can\'t be empty',
         onSaved: (newValue) => _name = newValue,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Rate per hour'),
+        initialValue: _ratePerHour == null ? null : _ratePerHour.toString(),
         keyboardType: TextInputType.numberWithOptions(
           signed: false,
           decimal: false,
