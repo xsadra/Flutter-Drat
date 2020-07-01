@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:timetracker/app/home/models/job.dart';
+import 'package:timetracker/services/database.dart';
 
 class AddJobPage extends StatefulWidget {
+  const AddJobPage({Key key, @required this.dataBase}) : super(key: key);
+  final DataBase dataBase;
+
   static Future<void> show(BuildContext context) async {
+    final database = Provider.of<DataBase>(context, listen: false);
     var route = MaterialPageRoute(
-      builder: (context) => AddJobPage(),
+      builder: (context) => AddJobPage(dataBase: database),
       fullscreenDialog: true,
     );
     await Navigator.of(context).push(route);
@@ -84,9 +91,10 @@ class _AddJobPageState extends State<AddJobPage> {
     ];
   }
 
-  void _submit() {
+  Future<void> _submit() async{
     if (_validateAndSaveForm()) {
-     //Save to Database...
+      final job = Job(name: _name, ratePerHour: _ratePerHour);
+      await widget.dataBase.createJob(job);
     }
   }
 
