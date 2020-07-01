@@ -9,6 +9,9 @@ abstract class DataBase {
   Stream<List<Job>> jobsStream();
 }
 
+String documentIdFromCurrentDate() =>
+    DateTime.now().millisecondsSinceEpoch.toString();
+
 class FirestoreDatabase implements DataBase {
   FirestoreDatabase({@required this.uid}) : assert(uid != null);
 
@@ -16,7 +19,7 @@ class FirestoreDatabase implements DataBase {
   final _service = FirestoreService.instance;
 
   Future<void> createJob(Job job) async => await _service.setData(
-        path: ApiPath.job(uid, 'job_abc'),
+        path: ApiPath.job(uid, documentIdFromCurrentDate()),
         data: job.toMap(),
       );
 
