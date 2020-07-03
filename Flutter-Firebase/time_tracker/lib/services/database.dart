@@ -20,6 +20,7 @@ class FirestoreDatabase implements DataBase {
   final String uid;
   final _service = FirestoreService.instance;
 
+  @override
   Future<void> setJob(Job job) async => await _service.setData(
         path: ApiPath.job(uid, job.id),
         data: job.toMap(),
