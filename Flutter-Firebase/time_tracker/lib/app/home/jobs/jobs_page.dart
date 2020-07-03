@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:timetracker/app/home/jobs/edit_job_page.dart';
 import 'package:timetracker/app/home/jobs/job_list_tile.dart';
@@ -8,6 +10,7 @@ import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/services/database.dart';
 import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
+import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
 class JobsPage extends StatelessWidget {
   Future<void> _confirmSignOut(BuildContext context) async {
@@ -65,12 +68,35 @@ class JobsPage extends StatelessWidget {
       builder: (context, snapshot) {
         return ListItemBuilder<Job>(
           snapshot: snapshot,
-          itemBuilder: (context, job) => JobListTile(
-            job: job,
-            onTap: () => EditJobPage.show(context, job: job),
+          itemBuilder: (context, job) => Dismissible(
+            key: Key('job-${job.id}'),
+            background: Container(
+              padding: EdgeInsets.only(right: 18.0),
+              color: Colors.red,
+              child: Icon(Icons.delete, color: Colors.white, size: 36.0),
+              alignment: Alignment.centerRight,
+            ),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) => _delete(context, job),
+            child: JobListTile(
+              job: job,
+              onTap: () => EditJobPage.show(context, job: job),
+            ),
           ),
         );
       },
     );
+  }
+
+  Future<void> _delete(BuildContext context, Job job) async {
+    try {
+      final database = Provider.of<DataBase>(context, listen: false);
+      await database.deleteJob(job);
+    } on PlatformException catch (e) {
+      PlatformExceptionAlertDialog(
+        title: 'Operation failed',
+        exception: e,
+      ).show(context);
+    }
   }
 }
