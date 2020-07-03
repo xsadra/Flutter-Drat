@@ -62,7 +62,7 @@ class JobsPage extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context) {
-    final database = Provider.of<DataBase>(context, listen: false);
+    final database = Provider.of<Database>(context, listen: false);
     return StreamBuilder<List<Job>>(
       stream: database.jobsStream(),
       builder: (context, snapshot) {
@@ -90,7 +90,7 @@ class JobsPage extends StatelessWidget {
 
   Future<void> _delete(BuildContext context, Job job) async {
     try {
-      final database = Provider.of<DataBase>(context, listen: false);
+      final database = Provider.of<Database>(context, listen: false);
       await database.deleteJob(job);
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(

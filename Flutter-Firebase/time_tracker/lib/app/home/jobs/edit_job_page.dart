@@ -9,11 +9,11 @@ import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dar
 class EditJobPage extends StatefulWidget {
   const EditJobPage({Key key, @required this.database, this.job})
       : super(key: key);
-  final DataBase database;
+  final Database database;
   final Job job;
 
   static Future<void> show(BuildContext context, {Job job}) async {
-    final database = Provider.of<DataBase>(context, listen: false);
+    final database = Provider.of<Database>(context, listen: false);
     var route = MaterialPageRoute(
       builder: (context) => EditJobPage(
         database: database,

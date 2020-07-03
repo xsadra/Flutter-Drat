@@ -3,7 +3,7 @@ import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/api_path.dart';
 import 'package:timetracker/services/firestore_service.dart';
 
-abstract class DataBase {
+abstract class Database {
   Future<void> setJob(Job job);
 
   Future<void> deleteJob(Job job);
@@ -14,7 +14,7 @@ abstract class DataBase {
 String documentIdFromCurrentDate() =>
     DateTime.now().millisecondsSinceEpoch.toString();
 
-class FirestoreDatabase implements DataBase {
+class FirestoreDatabase implements Database {
   FirestoreDatabase({@required this.uid}) : assert(uid != null);
 
   final String uid;
