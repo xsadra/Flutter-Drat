@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timetracker/app/home/jobs/edit_job_page.dart';
 import 'package:timetracker/app/home/jobs/job_list_tile.dart';
+import 'package:timetracker/app/home/jobs/list_items_builder.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/services/database.dart';
@@ -62,20 +63,13 @@ class JobsPage extends StatelessWidget {
     return StreamBuilder<List<Job>>(
       stream: database.jobsStream(),
       builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text('Some error occurred'));
-        }
-        if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
-        }
-        final jobs = snapshot.data;
-        final children = jobs
-            .map((job) => JobListTile(
-                  job: job,
-                  onTap: ()=> EditJobPage.show(context,job: job),
-                ))
-            .toList();
-        return ListView(children: children);
+        return ListItemBuilder<Job>(
+          snapshot: snapshot,
+          itemBuilder: (context, job) => JobListTile(
+            job: job,
+            onTap: () => EditJobPage.show(context, job: job),
+          ),
+        );
       },
     );
   }
