@@ -142,7 +142,15 @@ class _EntryPageState extends State<EntryPage> {
     );
   }
 
-  _buildEndDate() {}
+Widget _buildEndDate() {
+  return DateTimePicker(
+    labelText: 'End',
+    selectedDate: _endDate,
+    selectedTime: _endTime,
+    selectDate: (date) => setState(() => _endDate = date),
+    selectTime: (time) => setState(() => _endTime = time),
+  );
+}
 
   _buildDuration() {}
 
