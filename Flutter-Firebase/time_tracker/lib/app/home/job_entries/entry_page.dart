@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:timetracker/app/home/job_entries/date_time_picker.dart';
 import 'package:timetracker/app/home/models/entry.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
@@ -70,7 +71,23 @@ class _EntryPageState extends State<EntryPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(child: Container()),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildStartDate(),
+              _buildEndDate(),
+              SizedBox(height: 8.0),
+              _buildDuration(),
+              SizedBox(height: 8.0),
+              _buildComment(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -114,4 +131,20 @@ class _EntryPageState extends State<EntryPage> {
       comment: _comment,
     );
   }
+
+  Widget _buildStartDate() {
+    return DateTimePicker(
+      labelText: 'Start',
+      selectedDate: _startDate,
+      selectedTime: _startTime,
+      selectDate: (date) => setState(() => _startDate = date),
+      selectTime: (time) => setState(() => _startTime = time),
+    );
+  }
+
+  _buildEndDate() {}
+
+  _buildDuration() {}
+
+  _buildComment() {}
 }
