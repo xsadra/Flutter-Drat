@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:timetracker/app/home/job_entries/entry_list_item.dart';
 import 'package:timetracker/app/home/job_entries/entry_page.dart';
 import 'package:timetracker/app/home/jobs/edit_job_page.dart';
+import 'package:timetracker/app/home/jobs/list_items_builder.dart';
+import 'package:timetracker/app/home/models/entry.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
 
@@ -40,7 +43,7 @@ class JobEntriesPage extends StatelessWidget {
           ),
         ],
       ),
-      body: _buildContent(),
+      body: _buildContent(context, job),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             EntryPage.show(job: job, database: database, context: context),
@@ -49,5 +52,30 @@ class JobEntriesPage extends StatelessWidget {
     );
   }
 
-  _buildContent() {}
+  Widget _buildContent(BuildContext context, Job job) {
+    return StreamBuilder<List<Entry>>(
+      stream: database.entriesStream(job: job),
+      builder: (context, snapshot) {
+        return ListItemBuilder<Entry>(
+          snapshot: snapshot,
+          itemBuilder: (context, entry) {
+            return DismissibleEntryListItem(
+              key: Key('entry-${entry.id}'),
+              job: job,
+              entry: entry,
+              onDismissed: () => _deleteEntry(context, entry),
+              onTap: () => EntryPage.show(
+                context: context,
+                database: database,
+                job: job,
+                entry: entry,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  _deleteEntry(BuildContext context, Entry entry) {}
 }
