@@ -169,5 +169,18 @@ class _EntryPageState extends State<EntryPage> {
     );
   }
 
-  _buildComment() {}
+  Widget _buildComment() {
+    return TextField(
+      keyboardType: TextInputType.text,
+      maxLength: 50,
+      controller: TextEditingController(text: _comment),
+      decoration: InputDecoration(
+        labelText: 'Comment',
+        labelStyle: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+      ),
+      style: TextStyle(fontSize: 18.0, color: Colors.black),
+      maxLines: null,
+      onChanged: (value) => _comment = value,
+    );
+  }
 }
