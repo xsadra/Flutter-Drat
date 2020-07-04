@@ -32,6 +32,26 @@ class EntryPage extends StatefulWidget {
 }
 
 class _EntryPageState extends State<EntryPage> {
+  DateTime _startDate;
+  TimeOfDay _startTime;
+  DateTime _endDate;
+  TimeOfDay _endTime;
+  String _comment;
+
+  @override
+  void initState() {
+    super.initState();
+    final start = widget.entry?.start ?? DateTime.now();
+    _startDate = DateTime(start.year, start.month, start.day);
+    _startTime = TimeOfDay.fromDateTime(start);
+
+    final end = widget.entry?.end ?? DateTime.now();
+    _endDate = DateTime(end.year, end.month, end.day);
+    _endTime = TimeOfDay.fromDateTime(end);
+
+    _comment = widget.entry?.comment ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
