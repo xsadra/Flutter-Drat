@@ -76,3 +76,39 @@ class EntryListItem extends StatelessWidget {
     );
   }
 }
+
+class DismissibleEntryListItem extends StatelessWidget {
+  const DismissibleEntryListItem({
+    this.key,
+    this.entry,
+    this.job,
+    this.onDismissed,
+    this.onTap,
+  });
+
+  final Key key;
+  final Entry entry;
+  final Job job;
+  final VoidCallback onDismissed;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dismissible(
+      key: key,
+      background: Container(
+        padding: EdgeInsets.only(right: 18.0),
+        color: Colors.red,
+        child: Icon(Icons.delete, color: Colors.white, size: 36.0),
+        alignment: Alignment.centerRight,
+      ),
+      direction: DismissDirection.endToStart,
+      onDismissed: (direction) => onDismissed(),
+      child: EntryListItem(
+        entry: entry,
+        job: job,
+        onTap: onTap,
+      ),
+    );
+  }
+}
