@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timetracker/app/home/job_entries/date_time_picker.dart';
+import 'package:timetracker/app/home/job_entries/format.dart';
 import 'package:timetracker/app/home/models/entry.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
@@ -142,17 +143,31 @@ class _EntryPageState extends State<EntryPage> {
     );
   }
 
-Widget _buildEndDate() {
-  return DateTimePicker(
-    labelText: 'End',
-    selectedDate: _endDate,
-    selectedTime: _endTime,
-    selectDate: (date) => setState(() => _endDate = date),
-    selectTime: (time) => setState(() => _endTime = time),
-  );
-}
+  Widget _buildEndDate() {
+    return DateTimePicker(
+      labelText: 'End',
+      selectedDate: _endDate,
+      selectedTime: _endTime,
+      selectDate: (date) => setState(() => _endDate = date),
+      selectTime: (time) => setState(() => _endTime = time),
+    );
+  }
 
-  _buildDuration() {}
+  Widget _buildDuration() {
+    final currentEntry = _entryFromState();
+    final durationFormatted = Format.hours(currentEntry.durationInHour);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(
+          'Duration: $durationFormatted',
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
+  }
 
   _buildComment() {}
 }
