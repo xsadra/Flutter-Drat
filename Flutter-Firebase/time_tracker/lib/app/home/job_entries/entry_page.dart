@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:timetracker/app/home/models/entry.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
+import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
 class EntryPage extends StatefulWidget {
   const EntryPage({
@@ -60,7 +62,7 @@ class _EntryPageState extends State<EntryPage> {
         title: Text(widget.job.name),
         actions: [
           FlatButton(
-            onPressed: null,
+            onPressed: () => _setEntryAndDismiss(context),
             child: Text(
               widget.entry == null ? 'Create' : 'Update',
               style: TextStyle(fontSize: 18.0, color: Colors.white),
@@ -69,6 +71,47 @@ class _EntryPageState extends State<EntryPage> {
         ],
       ),
       body: SingleChildScrollView(child: Container()),
+    );
+  }
+
+  Future<void> _setEntryAndDismiss(BuildContext context) async {
+    try {
+      final entry = _entryFromState();
+      await widget.database.setEntry(entry);
+      Navigator.of(context).pop();
+    } on PlatformException catch (e) {
+      PlatformExceptionAlertDialog(
+        title: 'Operation failed',
+        exception: e,
+      ).show(context);
+    }
+  }
+
+  Entry _entryFromState() {
+    final start = DateTime(
+      _startDate.year,
+      _startDate.month,
+      _startDate.day,
+      _startTime.hour,
+      _startTime.minute,
+    );
+
+    final end = DateTime(
+      _endDate.year,
+      _endDate.month,
+      _endDate.day,
+      _endTime.hour,
+      _endTime.minute,
+    );
+
+    final id = widget.entry?.id ?? documentIdFromCurrentDate();
+
+    return Entry(
+      id: id,
+      jobId: widget.job.id,
+      start: start,
+      end: end,
+      comment: _comment,
     );
   }
 }
