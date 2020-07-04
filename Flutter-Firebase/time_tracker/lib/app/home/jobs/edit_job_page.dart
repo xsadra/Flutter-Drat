@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
 import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
@@ -12,8 +11,8 @@ class EditJobPage extends StatefulWidget {
   final Database database;
   final Job job;
 
-  static Future<void> show(BuildContext context, {Job job}) async {
-    final database = Provider.of<Database>(context, listen: false);
+  static Future<void> show(BuildContext context,
+      {Database database, Job job}) async {
     var route = MaterialPageRoute(
       builder: (context) => EditJobPage(
         database: database,
@@ -118,7 +117,7 @@ class _EditJobPageState extends State<EditJobPage> {
       final jobs = await widget.database.jobsStream().first;
       final jobsName = jobs.map((job) => job.name).toList();
 
-      if(widget.job!= null ){
+      if (widget.job != null) {
         jobsName.remove(widget.job.name);
       }
       if (jobsName.contains(_name)) {
