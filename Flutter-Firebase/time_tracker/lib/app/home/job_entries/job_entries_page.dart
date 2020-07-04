@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:timetracker/app/home/job_entries/entry_list_item.dart';
 import 'package:timetracker/app/home/job_entries/entry_page.dart';
@@ -7,6 +8,7 @@ import 'package:timetracker/app/home/jobs/list_items_builder.dart';
 import 'package:timetracker/app/home/models/entry.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
+import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
 class JobEntriesPage extends StatelessWidget {
   const JobEntriesPage({
@@ -77,5 +79,14 @@ class JobEntriesPage extends StatelessWidget {
     );
   }
 
-  _deleteEntry(BuildContext context, Entry entry) {}
+  Future<void> _deleteEntry(BuildContext context, Entry entry) async {
+    try {
+      await database.deleteEntry(entry);
+    } on PlatformException catch (e) {
+      PlatformExceptionAlertDialog(
+        title: 'Operation failed',
+        exception: e,
+      ).show(context);
+    }
+  }
 }
