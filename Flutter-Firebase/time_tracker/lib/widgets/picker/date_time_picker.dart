@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timetracker/app/home/job_entries/format.dart';
-import 'package:timetracker/app/home/job_entries/input_dropdown.dart';
+import 'package:timetracker/widgets/dropdown/input_dropdown.dart';
 
 class DateTimePicker extends StatelessWidget {
   const DateTimePicker({

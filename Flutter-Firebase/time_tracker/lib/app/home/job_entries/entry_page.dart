@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:timetracker/app/home/job_entries/date_time_picker.dart';
 import 'package:timetracker/app/home/job_entries/format.dart';
 import 'package:timetracker/app/home/models/entry.dart';
 import 'package:timetracker/app/home/models/job.dart';
 import 'package:timetracker/services/database.dart';
+import 'package:timetracker/widgets/picker/date_time_picker.dart';
 import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
 class EntryPage extends StatefulWidget {
