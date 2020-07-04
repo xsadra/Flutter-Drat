@@ -58,5 +58,13 @@ class DateTimePicker extends StatelessWidget {
     }
   }
 
-  _selectTime(BuildContext context) {}
+  Future<void> _selectTime(BuildContext context) async {
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (pickedTime != null && pickedTime != selectedTime) {
+      selectTime(pickedTime);
+    }
+  }
 }
