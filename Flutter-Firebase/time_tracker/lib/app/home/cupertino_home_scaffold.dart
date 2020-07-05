@@ -36,7 +36,7 @@ class CoupertinoHomeScaffold extends StatelessWidget {
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
     final itemData = TabItemData.allTabs[tabItem];
-    final color = currentTab == tabItem ? Colors.indigo : Colors.grey;
+    final color = currentTab == tabItem ? Colors.green : Colors.grey;
     return BottomNavigationBarItem(
       icon: Icon(
         itemData.icon,
@@ -44,7 +44,7 @@ class CoupertinoHomeScaffold extends StatelessWidget {
       ),
       title: Text(
         itemData.title,
-        style: TextStyle(color: color),
+        style: TextStyle(color: color, fontSize: 16.0),
       ),
     );
   }
