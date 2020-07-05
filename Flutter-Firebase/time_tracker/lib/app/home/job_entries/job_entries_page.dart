@@ -39,27 +39,28 @@ class JobEntriesPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Text(jobName),
+              centerTitle: true,
               elevation: 2.0,
               actions: [
-                FlatButton(
+                IconButton(
+                  icon: Icon(Icons.edit, color: Colors.white),
                   onPressed: () => EditJobPage.show(
                     context,
                     database: database,
                     job: job,
                   ),
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add, color: Colors.white),
+                  onPressed: () => EntryPage.show(
+                    job: job,
+                    database: database,
+                    context: context,
                   ),
                 ),
               ],
             ),
             body: _buildContent(context, job),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => EntryPage.show(
-                  job: job, database: database, context: context),
-              child: Icon(Icons.add),
-            ),
           );
         });
   }
