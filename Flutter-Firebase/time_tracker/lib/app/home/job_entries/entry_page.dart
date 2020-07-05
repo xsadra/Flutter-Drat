@@ -29,7 +29,7 @@ class EntryPage extends StatefulWidget {
           EntryPage(job: job, database: database, entry: entry),
       fullscreenDialog: true,
     );
-    await Navigator.of(context).push(route);
+    await Navigator.of(context,rootNavigator: true).push(route);
   }
 
   @override
