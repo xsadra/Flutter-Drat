@@ -38,7 +38,7 @@ class DailyJobsDetails {
       final entryDayStart =
           DateTime(entryStart.year, entryStart.month, entryStart.day);
 
-      if (result[entryStart] == null) {
+      if (result[entryDayStart] == null) {
         result[entryDayStart] = [entryJob];
       } else {
         result[entryDayStart].add(entryJob);
