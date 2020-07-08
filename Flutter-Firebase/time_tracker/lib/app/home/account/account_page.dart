@@ -60,6 +60,7 @@ class AccountPage extends StatelessWidget {
         Avatar(
           radius: 50.0,
           photoUrl: user.photoUrl,
+          borderColor: Colors.green[900],
         ),
         SizedBox(height: 12.0),
         if (user.displayName != null) ...[
