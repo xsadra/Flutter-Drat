@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timetracker/app/home/entries/daily_jobs_details.dart';
@@ -33,6 +34,9 @@ class EntriesBloc {
       }).toList();
 
   List<EntriesListTileModel> _createModels(List<EntryJob> allEntries) {
+    if (allEntries.isEmpty) {
+      return [];
+    }
     final allDailyJobsDetails = DailyJobsDetails.all(allEntries);
     final totalDuration = allDailyJobsDetails
         .map((entryJob) => entryJob.duration)
