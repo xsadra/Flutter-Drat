@@ -26,7 +26,8 @@ class AccountPage extends StatelessWidget {
         ],
         bottom: PreferredSize(
           child: _buildUserInfo(user),
-          preferredSize: Size.fromHeight(180.0),
+          preferredSize:
+              Size.fromHeight(user.phoneNumber == null || user.phoneNumber.length == 0 ? 180.0 : 210),
         ),
       ),
     );
@@ -56,6 +57,8 @@ class AccountPage extends StatelessWidget {
 
   Widget _buildUserInfo(User user) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+//      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Avatar(
           radius: 50.0,
@@ -67,7 +70,7 @@ class AccountPage extends StatelessWidget {
           Text(user.displayName, style: TextStyle(color: Colors.white)),
           SizedBox(height: 12.0),
         ],
-        if (user.email != null) ...[
+        if (user.email != null && user.email.trim().length > 5) ...[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,7 +82,7 @@ class AccountPage extends StatelessWidget {
           ),
           SizedBox(height: 12.0),
         ],
-        if (user.phoneNumber != null) ...[
+        if (user.phoneNumber != null && user.phoneNumber.trim().length > 1) ...[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
