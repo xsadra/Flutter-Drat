@@ -26,4 +26,16 @@ class Job {
       'ratePerHour': ratePerHour,
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Job &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          ratePerHour == other.ratePerHour;
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode ^ ratePerHour.hashCode;
 }
