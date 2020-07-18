@@ -16,6 +16,9 @@ class Job {
       return null;
     }
     final String name = data['name'];
+    if (name == null) {
+      return null;
+    }
     final int ratePerHour = data['ratePerHour'];
     return Job(id: documentId, name: name, ratePerHour: ratePerHour);
   }
@@ -38,4 +41,7 @@ class Job {
 
   @override
   int get hashCode => id.hashCode ^ name.hashCode ^ ratePerHour.hashCode;
+
+  @override
+  String toString() => 'Job{id: $id, name: $name, ratePerHour: $ratePerHour}';
 }
