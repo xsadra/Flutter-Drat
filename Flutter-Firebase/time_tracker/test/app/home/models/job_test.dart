@@ -27,4 +27,14 @@ void main() {
       expect(job, null);
     });
   });
+
+  group('toMap', () {
+    test('valid name, ratePerHour', () {
+      final job = Job(id: 'did-123', name: 'Developer', ratePerHour: 10);
+      expect(
+        job.toMap(),
+        {'name': 'Developer', 'ratePerHour': 10},
+      );
+    });
+  });
 }
