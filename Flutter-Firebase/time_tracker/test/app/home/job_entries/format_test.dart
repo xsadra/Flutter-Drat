@@ -25,7 +25,10 @@ void main() {
       await initializeDateFormatting(Intl.defaultLocale);
     });
     test('2020-07-17', () {
-      expect(Format.date(DateTime(2020, 7, 17)), 'Jul 17, 2020');
+      expect(
+        Format.date(DateTime(2020, 7, 17)),
+        'Jul 17, 2020',
+      );
     });
   });
 
@@ -35,7 +38,23 @@ void main() {
       await initializeDateFormatting(Intl.defaultLocale);
     });
     test('2020-07-17', () {
-      expect(Format.date(DateTime(2020, 7, 17)), '17 Jul 2020');
+      expect(
+        Format.date(DateTime(2020, 7, 17)),
+        '17 Jul 2020',
+      );
+    });
+  });
+
+  group('dayOfWeek - US Local', () {
+    setUp(() async {
+      Intl.defaultLocale = 'en-US';
+      await initializeDateFormatting(Intl.defaultLocale);
+    });
+    test('Monday', () {
+      expect(
+        Format.dayOfWeek(DateTime(2020, 7, 20)),
+        'Mon',
+      );
     });
   });
 }
