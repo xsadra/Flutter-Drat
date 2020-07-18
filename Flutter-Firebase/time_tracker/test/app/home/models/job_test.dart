@@ -13,13 +13,18 @@ void main() {
         {'name': 'Developer', 'ratePerHour': 10},
         'did-123',
       );
-      expect(job.id, 'did-123');
-      expect(job.name, 'Developer');
-      expect(job.ratePerHour, 10);
       expect(
         job,
         Job(id: 'did-123', name: 'Developer', ratePerHour: 10),
       );
+    });
+
+    test('missing name', () {
+      final job = Job.fromMap(
+        {'ratePerHour': 10},
+        'did-123',
+      );
+      expect(job, null);
     });
   });
 }
