@@ -21,7 +21,7 @@ void main() {
 
   group('date - US Local', () {
     setUp(() async {
-      Intl.defaultLocale = 'en-US';
+      Intl.defaultLocale = 'en_US';
       await initializeDateFormatting(Intl.defaultLocale);
     });
     test('2020-07-17', () {
@@ -34,7 +34,7 @@ void main() {
 
   group('date - GB Local', () {
     setUp(() async {
-      Intl.defaultLocale = 'en-GB';
+      Intl.defaultLocale = 'en_GB';
       await initializeDateFormatting(Intl.defaultLocale);
     });
     test('2020-07-17', () {
@@ -47,7 +47,7 @@ void main() {
 
   group('dayOfWeek - US Local', () {
     setUp(() async {
-      Intl.defaultLocale = 'en-US';
+      Intl.defaultLocale = 'en_US';
       await initializeDateFormatting(Intl.defaultLocale);
     });
     test('Monday', () {
@@ -55,6 +55,21 @@ void main() {
         Format.dayOfWeek(DateTime(2020, 7, 20)),
         'Mon',
       );
+    });
+  });
+
+  group('currency - US Local', () {
+    setUp(() async {
+      Intl.defaultLocale = 'en_US';
+    });
+    test('positive', () {
+      expect(Format.currency(10), '\$10');
+    });
+    test('zero', () {
+      expect(Format.currency(0), '');
+    });
+    test('negative', () {
+      expect(Format.currency(-10), '-\$10');
     });
   });
 }
