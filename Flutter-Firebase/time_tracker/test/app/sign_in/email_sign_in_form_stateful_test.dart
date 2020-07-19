@@ -39,5 +39,31 @@ void main() {
         password: anyNamed('password'),
       ));
     });
+
+    testWidgets('On entries email&password, signIn is called',
+        (WidgetTester tester) async {
+      await pumpEmailSignInForm(tester);
+
+      const email = 'email@mail.com';
+      const Password = 'Password';
+
+      final emailField = find.byKey(Key('email'));
+      expect(emailField, findsOneWidget);
+      await tester.enterText(emailField, email);
+
+      final passwordField = find.byKey(Key('password'));
+      expect(passwordField, findsOneWidget);
+      await tester.enterText(passwordField, Password);
+
+      await tester.pump();
+
+      final signInButton = find.text('Sign in ');
+      await tester.tap(signInButton);
+
+      verify(mockAuth.signInWithEmailAndPassword(
+        email: email,
+        password: Password,
+      )).called(1);
+    });
   });
 }
