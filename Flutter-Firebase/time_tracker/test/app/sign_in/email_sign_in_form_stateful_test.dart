@@ -66,4 +66,50 @@ void main() {
       )).called(1);
     });
   });
+
+  group('Register', () {
+    testWidgets('On toggles registration mode', (WidgetTester tester) async {
+      await pumpEmailSignInForm(tester);
+
+      final registerButton = find.text('Need an account? Register');
+      await tester.tap(registerButton);
+
+      await tester.pump();
+
+      final createAccountButton = find.text('Create an account');
+      expect(createAccountButton, findsOneWidget);
+    });
+
+    testWidgets('On entries email&password, createUser is called',
+        (WidgetTester tester) async {
+      await pumpEmailSignInForm(tester);
+
+      const email = 'email@mail.com';
+      const Password = 'Password';
+
+      final registerButton = find.text('Need an account? Register');
+      await tester.tap(registerButton);
+
+      await tester.pump();
+
+      final emailField = find.byKey(Key('email'));
+      expect(emailField, findsOneWidget);
+      await tester.enterText(emailField, email);
+
+      final passwordField = find.byKey(Key('password'));
+      expect(passwordField, findsOneWidget);
+      await tester.enterText(passwordField, Password);
+
+      await tester.pump();
+
+      final createAccountButton = find.text('Create an account');
+      expect(createAccountButton, findsOneWidget);
+      await tester.tap(createAccountButton);
+
+      verify(mockAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: Password,
+      )).called(1);
+    });
+  });
 }
