@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:timetracker/app/sign_in/email_sign_in_form_stateful.dart';
 import 'package:timetracker/services/auth.dart';
 
-class MockAuth extends Mock implements AuthBase {}
+import '../../mocks.dart';
 
 void main() {
   MockAuth mockAuth;
@@ -112,40 +112,39 @@ void main() {
       expect(signIn, true);
     });
 
-
     testWidgets(
         'On entries invalid email&password, signIn is called, user NOT signed in',
-            (WidgetTester tester) async {
-          var signIn = false;
-          await pumpEmailSignInForm(
-            tester,
-            onSignIn: () => signIn = true,
-          );
+        (WidgetTester tester) async {
+      var signIn = false;
+      await pumpEmailSignInForm(
+        tester,
+        onSignIn: () => signIn = true,
+      );
 
-          stubSignInWithEmailAndPasswordThrows();
+      stubSignInWithEmailAndPasswordThrows();
 
-          const email = 'email@mail.com';
-          const Password = 'Password';
+      const email = 'email@mail.com';
+      const Password = 'Password';
 
-          final emailField = find.byKey(Key('email'));
-          expect(emailField, findsOneWidget);
-          await tester.enterText(emailField, email);
+      final emailField = find.byKey(Key('email'));
+      expect(emailField, findsOneWidget);
+      await tester.enterText(emailField, email);
 
-          final passwordField = find.byKey(Key('password'));
-          expect(passwordField, findsOneWidget);
-          await tester.enterText(passwordField, Password);
+      final passwordField = find.byKey(Key('password'));
+      expect(passwordField, findsOneWidget);
+      await tester.enterText(passwordField, Password);
 
-          await tester.pump();
+      await tester.pump();
 
-          final signInButton = find.text('Sign in ');
-          await tester.tap(signInButton);
+      final signInButton = find.text('Sign in ');
+      await tester.tap(signInButton);
 
-          verify(mockAuth.signInWithEmailAndPassword(
-            email: email,
-            password: Password,
-          )).called(1);
-          expect(signIn, false);
-        });
+      verify(mockAuth.signInWithEmailAndPassword(
+        email: email,
+        password: Password,
+      )).called(1);
+      expect(signIn, false);
+    });
   });
 
   group('Register', () {
