@@ -7,11 +7,15 @@ import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/buttons/form_submit_button.dart';
 import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
 
+class EmailSignInFormStateful extends StatefulWidget
+    with EmailAndPasswordValidator {
+  final VoidCallback onSignIn;
 
+  EmailSignInFormStateful({Key key, this.onSignIn}) : super(key: key);
 
-class EmailSignInFormStateful extends StatefulWidget with EmailAndPasswordValidator {
   @override
-  _EmailSignInFormStatefulState createState() => _EmailSignInFormStatefulState();
+  _EmailSignInFormStatefulState createState() =>
+      _EmailSignInFormStatefulState();
 }
 
 class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
@@ -150,7 +154,9 @@ class _EmailSignInFormStatefulState extends State<EmailSignInFormStateful> {
           password: _password,
         );
       }
-      Navigator.of(context).pop();
+      if(widget.onSignIn != null){
+        widget.onSignIn();
+      }
     } on PlatformException catch (e) {
       PlatformExceptionAlertDialog(
         title: 'Sign in failed',
