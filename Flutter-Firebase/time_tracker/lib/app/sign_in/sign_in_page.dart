@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:timetracker/app/sign_in/email_sign_in_page.dart';
-import 'package:timetracker/app/sign_in/sign_in_manager.dart';
 import 'package:timetracker/app/sign_in/sign_in_button.dart';
+import 'package:timetracker/app/sign_in/sign_in_manager.dart';
 import 'package:timetracker/app/sign_in/social_sign_in_button.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dart';
@@ -11,6 +11,7 @@ import 'package:timetracker/widgets/platform/platform_exception_alert_dialog.dar
 class SignInPage extends StatelessWidget {
   final SignInManager manager;
   final bool isLoading;
+  static const signInWithEmailKey = Key('signInWithEmailKey');
 
   const SignInPage({Key key, @required this.manager, @required this.isLoading})
       : super(key: key);
@@ -79,6 +80,7 @@ class SignInPage extends StatelessWidget {
             height: 8.0,
           ),
           SignInButton(
+            key: signInWithEmailKey,
             text: 'Sign in with email',
             color: Colors.green[600],
             textColor: Colors.white,
