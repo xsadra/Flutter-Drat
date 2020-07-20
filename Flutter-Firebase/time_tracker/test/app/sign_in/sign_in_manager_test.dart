@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:timetracker/app/sign_in/sign_in_manager.dart';
@@ -45,5 +46,16 @@ void main() {
     await manager.signInAnonymously();
 
     expect(isLoading.values, [true]);
+  });
+
+  test('sign-in Failure', () async {
+    when(mockAuth.signInAnonymously())
+        .thenThrow(PlatformException(code: 'ERROR'));
+
+    try {
+      await manager.signInAnonymously();
+    } catch (e) {
+      expect(isLoading.values, [true, false]);
+    }
   });
 }
