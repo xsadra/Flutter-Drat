@@ -14,12 +14,15 @@ void main() {
     mockAuth = MockAuth();
   });
 
-  Future<void> pumpEmailSignInForm(WidgetTester tester) async {
+  Future<void> pumpEmailSignInForm(WidgetTester tester,
+      {VoidCallback onSignIn}) async {
     Widget widget = Provider<AuthBase>(
       create: (_) => mockAuth,
       child: MaterialApp(
         home: Scaffold(
-          body: EmailSignInFormStateful(),
+          body: EmailSignInFormStateful(
+            onSignIn: onSignIn,
+          ),
         ),
       ),
     );
@@ -27,44 +30,56 @@ void main() {
   }
 
   group('Sign in', () {
-    testWidgets('On empty email&password, signIn not called',
-        (WidgetTester tester) async {
-      await pumpEmailSignInForm(tester);
+    testWidgets(
+        'On empty email&password, signIn not called, user is not sign in',
+            (WidgetTester tester) async {
+          var signIn = false;
+          await pumpEmailSignInForm(
+            tester,
+            onSignIn: () => signIn = true,
+          );
 
-      final signInButton = find.text('Sign in ');
-      await tester.tap(signInButton);
+          final signInButton = find.text('Sign in ');
+          await tester.tap(signInButton);
 
-      verifyNever(mockAuth.signInWithEmailAndPassword(
-        email: anyNamed('email'),
-        password: anyNamed('password'),
-      ));
-    });
+          verifyNever(mockAuth.signInWithEmailAndPassword(
+            email: anyNamed('email'),
+            password: anyNamed('password'),
+          ));
+          expect(signIn, false);
+        });
 
-    testWidgets('On entries email&password, signIn is called',
-        (WidgetTester tester) async {
-      await pumpEmailSignInForm(tester);
+    testWidgets(
+        'On entries valid email&password, signIn is called, user signed in',
+            (WidgetTester tester) async {
+          var signIn = false;
+          await pumpEmailSignInForm(
+            tester,
+            onSignIn: () => signIn = true,
+          );
 
-      const email = 'email@mail.com';
-      const Password = 'Password';
+          const email = 'email@mail.com';
+          const Password = 'Password';
 
-      final emailField = find.byKey(Key('email'));
-      expect(emailField, findsOneWidget);
-      await tester.enterText(emailField, email);
+          final emailField = find.byKey(Key('email'));
+          expect(emailField, findsOneWidget);
+          await tester.enterText(emailField, email);
 
-      final passwordField = find.byKey(Key('password'));
-      expect(passwordField, findsOneWidget);
-      await tester.enterText(passwordField, Password);
+          final passwordField = find.byKey(Key('password'));
+          expect(passwordField, findsOneWidget);
+          await tester.enterText(passwordField, Password);
 
-      await tester.pump();
+          await tester.pump();
 
-      final signInButton = find.text('Sign in ');
-      await tester.tap(signInButton);
+          final signInButton = find.text('Sign in ');
+          await tester.tap(signInButton);
 
-      verify(mockAuth.signInWithEmailAndPassword(
-        email: email,
-        password: Password,
-      )).called(1);
-    });
+          verify(mockAuth.signInWithEmailAndPassword(
+            email: email,
+            password: Password,
+          )).called(1);
+          expect(signIn, true);
+        });
   });
 
   group('Register', () {
@@ -81,35 +96,35 @@ void main() {
     });
 
     testWidgets('On entries email&password, createUser is called',
-        (WidgetTester tester) async {
-      await pumpEmailSignInForm(tester);
+            (WidgetTester tester) async {
+          await pumpEmailSignInForm(tester);
 
-      const email = 'email@mail.com';
-      const Password = 'Password';
+          const email = 'email@mail.com';
+          const Password = 'Password';
 
-      final registerButton = find.text('Need an account? Register');
-      await tester.tap(registerButton);
+          final registerButton = find.text('Need an account? Register');
+          await tester.tap(registerButton);
 
-      await tester.pump();
+          await tester.pump();
 
-      final emailField = find.byKey(Key('email'));
-      expect(emailField, findsOneWidget);
-      await tester.enterText(emailField, email);
+          final emailField = find.byKey(Key('email'));
+          expect(emailField, findsOneWidget);
+          await tester.enterText(emailField, email);
 
-      final passwordField = find.byKey(Key('password'));
-      expect(passwordField, findsOneWidget);
-      await tester.enterText(passwordField, Password);
+          final passwordField = find.byKey(Key('password'));
+          expect(passwordField, findsOneWidget);
+          await tester.enterText(passwordField, Password);
 
-      await tester.pump();
+          await tester.pump();
 
-      final createAccountButton = find.text('Create an account');
-      expect(createAccountButton, findsOneWidget);
-      await tester.tap(createAccountButton);
+          final createAccountButton = find.text('Create an account');
+          expect(createAccountButton, findsOneWidget);
+          await tester.tap(createAccountButton);
 
-      verify(mockAuth.createUserWithEmailAndPassword(
-        email: email,
-        password: Password,
-      )).called(1);
-    });
+          verify(mockAuth.createUserWithEmailAndPassword(
+            email: email,
+            password: Password,
+          )).called(1);
+        });
   });
 }
