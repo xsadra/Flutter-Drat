@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Time Tracker',
         theme: ThemeData(
-          primarySwatch: Colors.brown,
+          primarySwatch: Colors.deepPurple,
         ),
         home: LandingPage(),
       ),
