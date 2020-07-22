@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:timetracker/services/auth.dart';
 import 'package:timetracker/widgets/avatar/avatar.dart';
 import 'package:timetracker/widgets/platform/platform_alert_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AccountPage extends StatelessWidget {
   @override
@@ -26,9 +27,51 @@ class AccountPage extends StatelessWidget {
         ],
         bottom: PreferredSize(
           child: _buildUserInfo(user),
-          preferredSize:
-              Size.fromHeight(user.phoneNumber == null || user.phoneNumber.length == 0 ? 180.0 : 210),
+          preferredSize: Size.fromHeight(
+              user.phoneNumber == null || user.phoneNumber.length == 0
+                  ? 180.0
+                  : 210),
         ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(child: Container()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Time Tracker',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0,
+                ),),
+              FlatButton(
+                onPressed: () => _launchURL('https://sadra.at'),
+                child: Row(
+                  children: [
+                    Text(
+                      'Created by: ',
+                      style: TextStyle(
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                    Text(
+                      'Sadra Babai',
+                      style: TextStyle(
+                        color: Colors.indigo[900],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 70.0),
+        ],
       ),
     );
   }
@@ -96,5 +139,13 @@ class AccountPage extends StatelessWidget {
         ],
       ],
     );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
